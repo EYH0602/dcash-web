@@ -116,3 +116,22 @@ ReactDOM.render(
     <LoginPage />,
     document.getElementById('root')
 )
+
+		// xhr.addEventListener('load', () => {
+		// 	if (xhr.status >= 400 && xhr.status <= 405) {
+		// 		window.alert(xhr.status);
+		// 		console.log("error: " + xhr.status);
+		// 		return;
+		// 	}
+		// 	const resp = JSON.parse(xhr.responseText);
+		// 	this.setState({
+		// 		status: PageStatus.Transition,
+		// 		balance: resp.balance,
+		// 		email: resp.email,
+		// 	});
+		// 	console.log(resp);
+		// 	return resp.balance;
+		// });
+		// xhr.open('GET', getURL('/users/' + this.state.session.user_id));
+		// xhr.setRequestHeader('x-auth-token', this.state.session.auth_token);
+		// xhr.send();

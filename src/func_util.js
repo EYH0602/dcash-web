@@ -1,16 +1,20 @@
 import Input from "./input.js";
+import { PageStatus } from "./dcash_enum.js";
 
-export const getButtonText = (id) => {
+export const getButtonText = status => {
 	let text;
-	switch (id) {
-		case 1:
+	switch (status) {
+		case PageStatus.FirstLoad:
 			text = "Login";
 			break;
-		case 2:
+		case PageStatus.LoggedIn:
 			text = "deposit";
 			break;
-		case 3:
+		case PageStatus.Deposit:
 			text = "send";
+			break;
+		case PageStatus.UpdateBalance:
+			text = "Update Balance";
 			break;
 		default:
 			text = "";
@@ -18,10 +22,10 @@ export const getButtonText = (id) => {
 	return text;
 };
 
-export const getInputJSX = (state) => {
+export const getInputJSX = status => {
 	let dom;
-	switch (state) {
-		case 1:
+	switch (status) {
+		case PageStatus.FirstLoad:
 			dom = (
 				<div>
 					<Input 
@@ -41,7 +45,7 @@ export const getInputJSX = (state) => {
 				</div>
 			);
 			break;
-		case 2:
+		case PageStatus.LoggedIn:
 			dom = (
 				<div>
 					card number: <input /> <br /> <br />
@@ -51,7 +55,7 @@ export const getInputJSX = (state) => {
 				</div>
 			);
 			break;
-		case 3:
+		case PageStatus.Deposit:
 			dom = (
 				<div>
 					to: <input /> <br /> <br />
@@ -64,4 +68,28 @@ export const getInputJSX = (state) => {
 	}
 	return dom;
 };
+
+export const getNotification = (status, extra) => {
+	let dom;
+	switch (status) {
+		case PageStatus.FirstLoad:
+			dom = (<p>please login or register.</p>);
+			break;
+		case PageStatus.LoggedIn:
+			dom = (
+				<div>
+					<h5>Welcome, {extra.username}. </h5>
+					<p>
+						Balance: {extra.balance} :)
+					</p>
+				</div>
+			);
+			break;
+		case PageStatus.Deposit:
+			break;
+		default:
+			dom = "";
+	}
+	return dom;
+}
 
