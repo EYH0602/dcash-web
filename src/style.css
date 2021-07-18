@@ -13,6 +13,13 @@
   color: #282828;
 }
 
+.input {
+  margin: 0 auto;
+  position: relative; 
+  left:auto; 
+  right:auto;
+}
+
 /* https://codesandbox.io/s/yqlz84rnyv?file=/src/style.css */
 * {
   box-sizing: border-box;

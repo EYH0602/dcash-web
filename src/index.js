@@ -1,31 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button'
-import { getButtonText, getInputJSX, getNotification } from './func_util'
+import Input from "./input.js";
 import { getUserUrlencoded, getURL, getAccountInfo } from './http_util';
 import { PageStatus } from './dcash_enum';
+import Demo from './tab';
 import './style.css';
 
 const MainButton = (props) => {
 	const { onClick, currentStatus } = props;
+	const text = currentStatus === PageStatus.FirstLoad ? 'Login' : 'Logout';
 	return (
 		<Button
-			variant="contained" 
+			variant="contained"
 			color="primary"
 			size="large"
-			style={{margin: "0 auto", display: "flex"}}
+			style={{ margin: "0 auto", display: "flex" }}
 			onClick={event => onClick(event)}
 		>
-			{getButtonText(currentStatus)}
+			{text}
 		</Button>
 	);
 }
 
 const InputFields = (props) => {
 	const { currentStatus } = props;
-	return (
-		getInputJSX(currentStatus)
+	const inputDOM = (
+		<div>
+			<Input
+				id='username'
+				label="username"
+				predicted="user"
+				locked={false}
+				active={false}
+			/> <br />
+			<Input
+				id='password'
+				label="password"
+				predicted="*****"
+				locked={false}
+				active={false}
+			/> <br />
+		</div>
 	);
+	const tabDOM = (
+		<div>
+			<Demo
+				className="input"
+				style={{ display: 'flex', margin: "0 auto" }}
+			/> <br />
+		</div>
+	);
+	return currentStatus === PageStatus.FirstLoad ? inputDOM : tabDOM;
 }
 
 const Header = () => {
@@ -36,9 +62,22 @@ const Header = () => {
 
 const Notification = (props) => {
 	const { currentStatus, extraInfo } = props;
+	let dom;
+	if (currentStatus === PageStatus.FirstLoad) {
+		dom = (<p>please login or register.</p>);
+	} else {
+		dom = (
+			<div>
+				<h5>
+					Welcome, {extraInfo.username}.
+					Balance: {extraInfo.balance} :)
+				</h5>
+			</div>
+		);
+	}
 	return (
 		<div className="notification">
-			{getNotification(currentStatus, extraInfo)}
+			{dom}
 			<br />
 		</div>
 	);
@@ -64,11 +103,11 @@ class Page extends React.Component {
 	}
 
 	handleInput = field => {
-		this.extra[field] = document.getElementById(field).value;
+		this.extra[ field ] = document.getElementById(field).value;
 	}
 
 	handleClick = () => {
-		switch(this.state.status) {
+		switch (this.state.status) {
 			case PageStatus.FirstLoad:
 				this.handleInput('username');
 				this.handleInput('password');
@@ -100,7 +139,7 @@ class Page extends React.Component {
 		console.log(this.state.session);
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate () {
 		const updateInfo = async () => {
 			if (this.state.session && !(this.state.balance.isClean && this.state.email.isClean)) {
 				const resp = await getAccountInfo(this.state.session);
@@ -113,20 +152,18 @@ class Page extends React.Component {
 						isClean: true,
 						value: resp.email,
 					},
-			});
+				});
 			}
 		};
 		setInterval(updateInfo, 1000);
 	}
 
 	render () {
-		
+
 		var extra = {};
 		Object.assign(extra, this.extra);
-		extra['balance'] = this.state.balance.amount; //this.getBalance();
+		extra[ 'balance' ] = this.state.balance.amount; //this.getBalance();
 
-		// console.log(extra['balance']);
-		
 		return (
 			<div>
 				<Header />
