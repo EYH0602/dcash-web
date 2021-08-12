@@ -4,34 +4,75 @@ import { makeStyles } from '@material-ui/core/styles';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
-
-const useStyles = makeStyles({
-    root: {
-        width: 500,
+const routes = [
+    {
+        path: "/session/",
+        exact: true,
+        sidebar: () => <div>HOME</div>,
+        main: () => <h2>HOME</h2>,
     },
-});
+    {
+        path: "/session/deposit",
+        sidebar: () => <div>DEPOSIT</div>,
+        main: () => <h2>Deposit</h2>,
+    },
+    {
+        path: "/session/transfer",
+        sidebar: () => <div>TRANSFER</div>,
+        main: () => <h2>Transfer</h2>,
+    },
+    {
+        path: "/",
+        exact: true,
+        sidebar: () => <div>LOGOUT</div>,
+        main: () => <h2>Logout</h2>,
+    },
+];
 
 const AfterLoginPage = props => {
     const storage = window.localStorage;
-    const classes = useStyles();
-    const [ value, setValue ] = React.useState(0);
-    console.log(storage.getItem('user_id'));
+    const auth_token = storage.getItem('auth_token');
+    const user_id = storage.getItem('user_id');
+    const username = storage.getItem('username');
+
     return (
-        <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                console.log(value)
-                setValue(newValue);
-            }}
-            showLabels
-            className={classes.root}
-        >
-            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-        </BottomNavigation>
-    )
+        <BrowserRouter>
+            <div style={{ display: "flex" }}>
+                <div
+                    style={{
+                        padding: "10px",
+                        width: "10px",
+                        background: "pink"
+                    }}
+                >
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
+                        <li><Link to="/session/">Home</Link></li>
+                        <li><Link to="/session/deposit">Deposit</Link></li>
+                        <li><Link to="/session/transfer">Transfer</Link></li>
+                    </ul>
+                </div>
+                <div style={{ flex: 1, padding: "10px" }}>
+                    <Switch>
+                        {routes.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                exact={route.exact}
+                                children={
+                                    <div>
+                                        <route.main />
+                                        <p>Welcome, {username}</p>
+                                    </div>
+                                }
+                            />
+                        ))}
+                    </Switch>
+                </div>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default AfterLoginPage;
