@@ -1,7 +1,7 @@
 import React from "react";
 // import { render } from "react-dom";
 // import { TransitionMotion, spring } from "react-motion";
-import "./style.css";
+import "../style.css";
 
 // https://codesandbox.io/s/yqlz84rnyv
 class Input extends React.Component {

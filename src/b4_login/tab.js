@@ -11,7 +11,7 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import { green } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
-import Input from './input';
+import Input from '../utils/input';
 
 function TabPanel (props) {
     const { children, value, index, ...other } = props;
