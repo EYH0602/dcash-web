@@ -43,7 +43,7 @@ const AfterLoginPage = props => {
                 <div
                     style={{
                         padding: "10px",
-                        width: "10px",
+                        width: "100px",
                         background: "pink"
                     }}
                 >
