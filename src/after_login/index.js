@@ -1,28 +1,31 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import { getAccountInfo } from '../utils/http_util';
+import { Home } from './home';
+import { Deposit } from './deposit';
+import { Transfer } from './transfer';
+import { Email } from './email';
 
 const routes = [
     {
         path: "/session/",
         exact: true,
         sidebar: () => <div>HOME</div>,
-        main: () => <h2>HOME</h2>,
+        main: () => <Home />,
     },
     {
         path: "/session/deposit",
         sidebar: () => <div>DEPOSIT</div>,
-        main: () => <h2>Deposit</h2>,
+        main: () => <Deposit />,
     },
     {
         path: "/session/transfer",
         sidebar: () => <div>TRANSFER</div>,
-        main: () => <h2>Transfer</h2>,
+        main: () => <Transfer />,
     },
     {
         path: "/session/email",
         sidebar: () => <div>UPDATE Email</div>,
-        main: () => <h2>Update Email</h2>
+        main: () => <Email />,
     },
     {
         path: "/",
@@ -41,13 +44,6 @@ const AfterLoginPage = props => {
         auth_token: auth_token,
         user_id: user_id,
     };
-    const getBalance = async () => {
-        const data = await getAccountInfo(session);
-        storage.setItem('balance', data.balance);
-    }
-    getBalance();
-    console.log(storage.getItem('balance'));
-
 
     return (
         <BrowserRouter>
@@ -76,7 +72,7 @@ const AfterLoginPage = props => {
                                 children={
                                     <div>
                                         <route.main />
-                                        <p>Welcome, {username}. Your balance is 100.</p>
+                                        <p>dcash</p>
                                     </div>
                                 }
                             />
