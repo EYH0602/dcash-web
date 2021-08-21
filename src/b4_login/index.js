@@ -1,11 +1,7 @@
 import React, { useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router';
 import { Button, TextField } from '@material-ui/core'
-import Input from "../utils/input.js";
-import { getUserUrlencoded, getURL, getAccountInfo, login } from '../utils/http_util';
-import { PageStatus } from '../utils/dcash_enum';
-import Demo from './tab';
+import { login } from '../utils/http_util';
 import '../style.css';
 
 const B4LoginPage = props => {
